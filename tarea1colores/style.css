@@ -132,7 +132,8 @@ body{margin:0; background:#efefef; font-family:var(--font); color:var(--ink)}
   .phone{width:92vw}
 }
 
-.spline-box{
+
+    .spline-box{
   width: min(1000px,100%);
   margin: 3rem auto;
   aspect-ratio: 16/9;
@@ -141,7 +142,6 @@ body{margin:0; background:#efefef; font-family:var(--font); color:var(--ink)}
   box-shadow: 0 10px 40x rgba(0,0,0, 0.35);
   background:#0b1220;
 }
-
 spline-viewer{
   display: block;
   width: 100%;
