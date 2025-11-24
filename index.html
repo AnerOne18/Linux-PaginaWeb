@@ -1,19 +1,95 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Dragon Ball Buscador</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<title>Conversor de Moneda</title>
+
+<style>
+    body {
+        font-family: Arial;
+        background: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        width: 350px;
+        box-shadow: 0 0 10px rgba(0,0,0,.2);
+    }
+
+    select, input, button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+    }
+
+    button {
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+
 </head>
 <body>
 
-    <h1>Buscador de Dragon Ball</h1>
+<div class="card">
+    <h2>Conversor de Moneda</h2>
 
-    <input type="text" id="searchInput" placeholder="Escribe un nombre, ej: Goku">
-    <button onclick="buscar()">Buscar</button>
+    <input type="number" id="amount" placeholder="Cantidad" />
 
-    <div id="resultado"></div>
+    <select id="from">
+        <option value="USD">Dólar (USD)</option>
+        <option value="EUR">Euro (EUR)</option>
+        <option value="MXN">Peso Mexicano (MXN)</option>
+        <option value="JPY">Yen (JPY)</option>
+    </select>
 
-    <script src="app.js"></script>
+    <select id="to">
+        <option value="MXN">Peso Mexicano (MXN)</option>
+        <option value="USD">Dólar (USD)</option>
+        <option value="EUR">Euro (EUR)</option>
+        <option value="JPY">Yen (JPY)</option>
+    </select>
+
+    <button onclick="convertir()">Convertir</button>
+
+    <h3 id="resultado"></h3>
+</div>
+
+<script>
+async function convertir() {
+    const cantidad = document.getElementById("amount").value;
+    const from = document.getElementById("from").value;
+    const to = document.getElementById("to").value;
+
+    if (!cantidad) {
+        alert("Ingresa una cantidad.");
+        return;
+    }
+
+    try {
+        // Llamada a la API
+        const res = await fetch(`https://api.exchangerate-api.com/v4/latest/${from}`);
+        const data = await res.json();
+
+        const tasa = data.rates[to];
+        const total = cantidad * tasa;
+
+        document.getElementById("resultado").innerText =
+            `${cantidad} ${from} = ${total.toFixed(2)} ${to}`;
+
+    } catch (error) {
+        document.getElementById("resultado").innerText = "Error al consultar la API";
+    }
+}
+</script>
+
 </body>
 </html>
