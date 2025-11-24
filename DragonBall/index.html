@@ -2,21 +2,18 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dragon Ball API App</title>
+    <title>Dragon Ball Buscador</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <h1>Dragon Ball Buscador de Personajes</h1>
+    <h1>Buscador de Dragon Ball</h1>
 
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Escribe el nombre de tu guerrero Z">
-        <button onclick="searchCharacter()">Buscar</button>
-    </div>
+    <input type="text" id="searchInput" placeholder="Escribe un nombre, ej: Goku">
+    <button onclick="buscar()">Buscar</button>
 
-    <div id="results"></div>
+    <div id="resultado"></div>
 
-    <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

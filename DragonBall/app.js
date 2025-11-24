@@ -1,34 +1,35 @@
-async function searchCharacter() {
-    const name = document.getElementById("searchInput").value.trim();
+function buscar() {
+    const nombre = document.getElementById("searchInput").value.trim();
+    const contenedor = document.getElementById("resultado");
+    contenedor.innerHTML = "Buscando...";
 
-    if (name === "") {
-        alert("Escribe un nombre para buscar.");
+    if (nombre === "") {
+        contenedor.innerHTML = "Escribe un nombre primero.";
         return;
     }
 
-    const url = `https://dragonball-api.com/api/characters?name=${name}`;
+    fetch(`https://dragonball-api.vercel.app/api/character?name=${nombre}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
 
-    const response = await fetch(url);
-    const data = await response.json();
+            if (!data || data.length === 0) {
+                contenedor.innerHTML = "No se encontró el personaje.";
+                return;
+            }
 
-    const resultsDiv = document.getElementById("results");
-    resultsDiv.innerHTML = ""; 
+            let personaje = data[0];
 
-    if (data.items.length === 0) {
-        resultsDiv.innerHTML = "<p>No se encontró ningún personaje.</p>";
-        return;
-    }
-
-    const character = data.items[0];
-
-    resultsDiv.innerHTML = `
-        <div class="character-card">
-            <h2>${character.name}</h2>
-            <img src="${character.image}" alt="${character.name}">
-            <p><strong>Raza:</strong> ${character.race}</p>
-            <p><strong>Género:</strong> ${character.gender}</p>
-            <p><strong>Ki:</strong> ${character.ki}</p>
-            <p><strong>Descripción:</strong> ${character.description}</p>
-        </div>
-    `;
+            contenedor.innerHTML = `
+                <h2>${personaje.name}</h2>
+                <img src="${personaje.image}" alt="imagen">
+                <p><strong>Raza:</strong> ${personaje.race}</p>
+                <p><strong>Ki:</strong> ${personaje.ki}</p>
+                <p><strong>Afiliación:</strong> ${personaje.affiliation}</p>
+            `;
+        })
+        .catch(err => {
+            console.error(err);
+            contenedor.innerHTML = "Error al consultar la API.";
+        });
 }

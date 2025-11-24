@@ -1,12 +1,12 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #fce4ec;
+    background-color: #fa0000;
     text-align: center;
     padding: 20px;
 }
 
 h1 {
-    color: #d81b60;
+    color: #000000;
 }
 
 .search-container {
@@ -16,13 +16,13 @@ h1 {
 #searchInput {
     padding: 8px;
     width: 250px;
-    border: 2px solid #d81b60;
+    border: 2px solid #0e00d6;
     border-radius: 5px;
 }
 
 button {
     padding: 8px 15px;
-    background-color: #d81b60;
+    background-color: #210be4;
     color: white;
     border: none;
     border-radius: 5px;
@@ -30,7 +30,7 @@ button {
 }
 
 button:hover {
-    background-color: #c2185b;
+    background-color: #ff7402;
 }
 
 .character-card {
