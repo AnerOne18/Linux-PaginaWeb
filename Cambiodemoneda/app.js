@@ -1,5 +1,5 @@
 // URL de la API sin API key
-const API_URL = "https://api.exchangerate-api.com/v4/latest/USD";
+const API_URL = "https://api.exchangerate.host/convert?from=USD&to=EUR&amount=1";
 
 const fromSelect = document.getElementById("from");
 const toSelect = document.getElementById("to");
