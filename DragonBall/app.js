@@ -1,35 +1,38 @@
-function buscar() {
-    const nombre = document.getElementById("searchInput").value.trim();
-    const contenedor = document.getElementById("resultado");
-    contenedor.innerHTML = "Buscando...";
+async function buscarPersonaje() {
+    const nombre = document.getElementById("nombre").value.trim();
 
-    if (nombre === "") {
-        contenedor.innerHTML = "Escribe un nombre primero.";
+    if (!nombre) {
+        alert("Escribe un nombre");
         return;
     }
 
-    fetch(`https://dragonball-api.vercel.app/api/character?name=${nombre}`)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
+    try {
+        const respuesta = await fetch(`https://dragonball-api.vercel.app/api/characters?name=${nombre}`);
 
-            if (!data || data.length === 0) {
-                contenedor.innerHTML = "No se encontró el personaje.";
-                return;
-            }
+        if (!respuesta.ok) {
+            throw new Error(`Error HTTP: ${respuesta.status}`);
+        }
 
-            let personaje = data[0];
+        const datos = await respuesta.json();
 
-            contenedor.innerHTML = `
-                <h2>${personaje.name}</h2>
-                <img src="${personaje.image}" alt="imagen">
-                <p><strong>Raza:</strong> ${personaje.race}</p>
-                <p><strong>Ki:</strong> ${personaje.ki}</p>
-                <p><strong>Afiliación:</strong> ${personaje.affiliation}</p>
-            `;
-        })
-        .catch(err => {
-            console.error(err);
-            contenedor.innerHTML = "Error al consultar la API.";
-        });
+        // La API regresa un arreglo, ejemplo: [ {...personaje...} ]
+        if (datos.length === 0) {
+            document.getElementById("resultado").innerHTML = "❌ Personaje no encontrado.";
+            return;
+        }
+
+        const personaje = datos[0];
+
+        document.getElementById("resultado").innerHTML = `
+            <h2>${personaje.name}</h2>
+            <img src="${personaje.image}" width="200">
+            <p><strong>Raza:</strong> ${personaje.race}</p>
+            <p><strong>Ki:</strong> ${personaje.ki}</p>
+            <p><strong>Ki Máximo:</strong> ${personaje.maxKi}</p>
+            <p><strong>Planeta:</strong> ${personaje.originPlanet?.name || "Desconocido"}</p>
+        `;
+    } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("resultado").innerHTML = "⚠ Error al consultar la API";
+    }
 }
